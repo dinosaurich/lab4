@@ -2,29 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
+#include <vector>
 using namespace std;
-class wildtiger{
-private:
-int startpos_x,startpos_y;
+class Object{
 double s;
 public:
 int k=0;
 int last_position[100];
-void setStart_x(int x){
-    cin>>startpos_x;
-}
-void setStart_y(int y){
-    cin>>startpos_y;
-}
-int getStart_x(){
-    return startpos_x;
-}
-int getStart_y(){
-    return startpos_y;
-}
-void getLastPosition(int step_number){
-cout<<"x:"<<last_position[2*step_number+1]<<","<<last_position[2*step_number+2]<<endl;
-}
 char array1[10][10];
 void init(){
 s=0;
@@ -38,24 +22,40 @@ for(int i =0;i<10;i++){
 
 }
 class Coordinates{
+private:
+int startpos_x,startpos_y;
 public:
 int x,y;
-
+vector <int> position;
+void SaveLastPosition(int a, int b){
+position.push_back(a);
+position.push_back(b);
+}
+int getLastPosition(int step_num){
+return position.at(step_num);
+return position.at(step_num+1);
+}
+void set_startpos(int a, int b){
+startpos_x=a;
+startpos_y=b;
+}
+int get_startpos_x(){
+return startpos_x;
+}
+int get_startpos_y(){
+return startpos_y;
+}
 };
 Coordinates c;
 void changepos(){
+k++;
 c.x=rand()%11;
 c.y=rand()%11;
-last_position[2*k+1]=startpos_x;
-last_position[2*k+2]=startpos_y;
-array1[startpos_x][startpos_y]='0';
+c.SaveLastPosition(c.x,c.y);
+array1[c.get_startpos_x()][c.get_startpos_y()]='0';
 array1[c.x][c.y]='*';
-startpos_x=c.x;
-startpos_y=c.y;
-//cout<<"x:"<<x<<endl;
-//cout<<"y"<<y<<endl;
-s=sqrt(pow((startpos_x-c.x),2)+pow((startpos_y-c.y),2));
-//cout<<"s:"<<s<<endl;
+c.set_startpos(c.x,c.y);
+s=sqrt(pow((c.get_startpos_x()-c.x),2)+pow((c.get_startpos_y()-c.y),2));
 c.x=0;
 c.y=0;
 for(int i =0;i<10;i++){
@@ -64,22 +64,17 @@ for(int i =0;i<10;i++){
     }
     cout<<""<<endl;
 }
-s=0;
 }
 
 };
 
 int main()
 {
-wildtiger wt;
-wt.init();
-wt.setStart_x(0);
-wt.setStart_y(0);
+Object obj;
+obj.init();
 while(true){
-wt.changepos();
-int i=0;
-wt.getLastPosition(i);
-i++;
+obj.changepos();
+obj.c.getLastPosition(obj.k);
 sleep(5);
 }
     return 0;
