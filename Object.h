@@ -7,10 +7,10 @@
 #include <math.h>
 using namespace std;
 Coordinates c;
-vector<Coordinates>path;
 class Object{
 double s;
 public:
+vector<Coordinates>path;
 int k=0;
 int last_position[100];
 char array1[10][10];
@@ -23,7 +23,6 @@ for(int i =0;i<10;i++){
     }
     //cout<<""<<endl;
 }
-
 }
 void changepos(){
 k++;
